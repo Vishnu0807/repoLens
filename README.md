@@ -1,0 +1,147 @@
+# RepoLens
+
+RepoLens helps developers navigate unfamiliar Python repositories with free-text search. Ask **“Where is a failed payment retried?”** or **“Which function calculates delivery charges?”** and inspect the matching code with its original path and line range.
+
+The app supports a bundled order-service project and bounded repository ZIP uploads. Uploaded code is parsed in memory and is never imported or executed.
+
+## Features
+
+- Extract functions, classes, methods, docstrings, source, and line ranges with Python AST.
+- Rank symbols with BM25 keyword search or pretrained Sentence Transformer embeddings.
+- Combine keyword and semantic rankings with Reciprocal Rank Fusion.
+- Compare the top five keyword, semantic, and hybrid results side by side.
+- Browse complete files or filter by function, class, and method.
+- Resolve unique direct calls and label uncertain receiver relationships as ambiguous.
+- Cache parsed files by SHA-256 content hash so unchanged files are reused.
+- Validate uploaded ZIP size, paths, symlinks, file count, encodings, and expansion size.
+- Expose the bundled sample through a validated FastAPI search endpoint.
+- Evaluate retrieval with Recall@5, MRR@5, latency, and documented no-answer searches.
+
+## Stack
+
+Python, AST, Sentence Transformers, BM25, NumPy, Streamlit, FastAPI, Pydantic, pytest, and Git.
+
+## Project structure
+
+```text
+repolens/
+├── .streamlit/config.toml     # Dark theme and upload limit
+├── app.py                     # Streamlit interface
+├── core.py                    # Parsing, cache, calls, BM25, semantic and RRF
+├── ingest.py                  # Safe in-memory ZIP validation
+├── api.py                     # FastAPI extension
+├── evaluate.py                # Recall@5, MRR@5, latency and failure report
+├── evaluation_queries.json    # 15 answerable + 5 no-answer questions
+├── evaluation_report.json     # Reproducible results from the bundled dataset
+├── sample_repo/               # Bundled order-service demo
+└── tests/                     # Core and API tests
+```
+
+## Run on Windows
+
+Install Python 3.12 and Git. Open PowerShell inside this folder:
+
+```powershell
+py -3.12 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install --upgrade pip
+.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
+.\.venv\Scripts\python.exe -m streamlit run app.py
+```
+
+Open the local URL printed by Streamlit, usually http://localhost:8501. The first semantic or hybrid search downloads `all-MiniLM-L6-v2`; keyword search works immediately.
+
+Run the API separately:
+
+```powershell
+.\.venv\Scripts\python.exe -m uvicorn api:app --reload --port 8000
+```
+
+Interactive API documentation is at http://127.0.0.1:8000/docs.
+
+## Test and evaluate
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest -q
+.\.venv\Scripts\python.exe evaluate.py --output evaluation_report.json
+```
+
+The evaluation runs all three retrieval methods with the real embedding model. It measures answerable questions and records what each method returns for questions whose functionality does not exist. The bundled question set is small and written for the sample repository; its results are a demo check, not a general benchmark.
+
+Measured on the bundled 15-question set:
+
+| Method | Recall@5 | MRR@5 | Median query latency* |
+|---|---:|---:|---:|
+| Keyword | 1.000 | 0.922 | 0.04 ms |
+| Semantic | 1.000 | 1.000 | 16.97 ms |
+| Hybrid | 1.000 | 0.967 | 37.18 ms |
+
+\*Latency is machine-dependent and excludes one-time model/document loading. Semantic happened to rank best on this deliberately small sample; hybrid is not claimed to always win.
+
+## How search works
+
+1. AST finds top-level functions, classes, and direct methods without executing repository code.
+2. Each symbol keeps its qualified name, file path, line range, docstring, and source.
+3. BM25 scores exact words from identifiers, paths, docstrings, and code.
+4. MiniLM creates normalized vectors for a short summary of each symbol. Dot product gives cosine similarity.
+5. Hybrid search adds `1 / (60 + rank)` from the BM25 and semantic lists.
+
+Raw BM25 and cosine scores use different scales, so Reciprocal Rank Fusion combines ranks instead of adding the scores directly.
+
+Call resolution is deliberately conservative. A unique local `helper()` or `self.total()` target is marked resolved. A call such as `order.total()` is ambiguous because AST alone does not prove the runtime type of `order`. Unmatched calls are treated as external.
+
+## Limits
+
+- ZIP: 10 MB upload, 30 MB expanded, 3,000 entries, 200 Python files, and 200 KB per file.
+- Parses top-level functions, classes, and direct methods. Nested functions are not indexed separately.
+- The cache lasts for the Streamlit session; it is not a shared production cache.
+- Semantic quality depends on a pretrained general sentence model; the model was not trained in this project.
+- Retrieval suggests relevant code. It does not prove program behaviour or correctness.
+- The FastAPI extension searches the bundled project. Uploaded repositories remain inside the Streamlit session.
+
+## Push to GitHub (`vishnu0807`)
+
+Create an **empty public repository** named `repolens` at https://github.com/new. Do not initialize it with another README or `.gitignore`.
+
+Run from this project folder:
+
+```bash
+git init
+git add .
+git commit -m "Build RepoLens repository search"
+git branch -M main
+git remote add origin https://github.com/vishnu0807/repolens.git
+git push -u origin main
+```
+
+For later updates:
+
+```bash
+git add .
+git commit -m "Improve RepoLens search"
+git push
+```
+
+## Deploy the live resume demo
+
+Use Streamlit Community Cloud for `app.py`:
+
+1. Visit https://share.streamlit.io and sign in with GitHub.
+2. Choose **Create app**.
+3. Select `vishnu0807/repolens`, branch `main`, and entrypoint `app.py`.
+4. Deploy and test keyword, semantic, hybrid, comparison, browsing, and one ZIP upload.
+5. Choose a simple URL such as `repolens-vishnu0807.streamlit.app` if it is available.
+
+Use the **live Streamlit URL** as the hyperlink on your resume project title. Put the GitHub URL in your LinkedIn project entry or beside the project only when the resume template has room.
+
+## Interview explanation
+
+“RepoLens parses Python source with AST and creates one searchable document per function, class, or method. BM25 handles exact identifiers, while MiniLM embeddings handle descriptions that use different words. Hybrid search combines their ranks with RRF. I preserve paths and line ranges so every result can be checked against the source. I also added safe ZIP validation, content-hash caching, conservative call resolution, an API, tests, and a labelled retrieval evaluation.”
+
+Be clear that MiniLM is pretrained. The project applies and evaluates the model; it does not train a new neural network.
+
+## Resume entry
+
+**RepoLens | Python, FastAPI, Streamlit, Sentence Transformers, AST, BM25**
+
+- Built a Python repository-search tool combining AST symbol extraction, BM25, MiniLM embeddings, and Reciprocal Rank Fusion with source-linked results.
+- Added safe ZIP ingestion, content-hash caching, conservative call resolution, a tested FastAPI endpoint, and Recall@5/MRR evaluation.

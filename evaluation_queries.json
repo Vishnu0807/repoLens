@@ -1,0 +1,22 @@
+[
+  {"query": "retry a failed payment", "expected": "retry_payment"},
+  {"query": "refund part of the purchase amount", "expected": "calculate_refund"},
+  {"query": "prevent duplicate payment requests", "expected": "idempotency_key"},
+  {"query": "reserve stock before checkout", "expected": "reserve_stock"},
+  {"query": "release inventory after cancellation", "expected": "release_stock"},
+  {"query": "find products needing replenishment", "expected": "low_stock"},
+  {"query": "calculate parcel delivery charges", "expected": "shipping_cost"},
+  {"query": "estimate arrival excluding weekends", "expected": "delivery_date"},
+  {"query": "validate Indian postal PIN", "expected": "valid_postcode"},
+  {"query": "sum revenue only from paid orders", "expected": "total_revenue"},
+  {"query": "mean spending per successful order", "expected": "average_order_value"},
+  {"query": "rank best selling products", "expected": "popular_products"},
+  {"query": "validate customer email", "expected": "valid_email"},
+  {"query": "reject non positive quantities", "expected": "check_quantity"},
+  {"query": "percentage discount on an amount", "expected": "apply_discount"},
+  {"query": "send password reset email", "expected": null, "cause": "The sample repository has no authentication or email service."},
+  {"query": "upload a profile image", "expected": null, "cause": "The sample repository contains no upload handler."},
+  {"query": "write audit logs to kafka", "expected": null, "cause": "No logging or Kafka integration exists in the sample."},
+  {"query": "calculate sales tax", "expected": null, "cause": "The order service has discounts and totals but no tax function."},
+  {"query": "connect to postgres", "expected": null, "cause": "The sample uses no database layer."}
+]

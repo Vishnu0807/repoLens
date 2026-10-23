@@ -1,0 +1,361 @@
+{
+  "dataset": "bundled-order-service-v1",
+  "positive_queries": 15,
+  "no_answer_queries": 5,
+  "symbol_count": 23,
+  "model": "sentence-transformers/all-MiniLM-L6-v2",
+  "limitations": "The questions were manually written for this small repository. This checks the demo, not retrieval quality on unrelated repositories. Latency is machine-dependent.",
+  "modes": {
+    "keyword": {
+      "recall_at_5": 1.0,
+      "mrr_at_5": 0.9222,
+      "median_latency_ms": 0.04,
+      "queries": [
+        {
+          "query": "retry a failed payment",
+          "expected": "retry_payment",
+          "rank": 1
+        },
+        {
+          "query": "refund part of the purchase amount",
+          "expected": "calculate_refund",
+          "rank": 1
+        },
+        {
+          "query": "prevent duplicate payment requests",
+          "expected": "idempotency_key",
+          "rank": 1
+        },
+        {
+          "query": "reserve stock before checkout",
+          "expected": "reserve_stock",
+          "rank": 1
+        },
+        {
+          "query": "release inventory after cancellation",
+          "expected": "release_stock",
+          "rank": 1
+        },
+        {
+          "query": "find products needing replenishment",
+          "expected": "low_stock",
+          "rank": 2
+        },
+        {
+          "query": "calculate parcel delivery charges",
+          "expected": "shipping_cost",
+          "rank": 1
+        },
+        {
+          "query": "estimate arrival excluding weekends",
+          "expected": "delivery_date",
+          "rank": 1
+        },
+        {
+          "query": "validate Indian postal PIN",
+          "expected": "valid_postcode",
+          "rank": 1
+        },
+        {
+          "query": "sum revenue only from paid orders",
+          "expected": "total_revenue",
+          "rank": 1
+        },
+        {
+          "query": "mean spending per successful order",
+          "expected": "average_order_value",
+          "rank": 1
+        },
+        {
+          "query": "rank best selling products",
+          "expected": "popular_products",
+          "rank": 1
+        },
+        {
+          "query": "validate customer email",
+          "expected": "valid_email",
+          "rank": 3
+        },
+        {
+          "query": "reject non positive quantities",
+          "expected": "check_quantity",
+          "rank": 1
+        },
+        {
+          "query": "percentage discount on an amount",
+          "expected": "apply_discount",
+          "rank": 1
+        }
+      ]
+    },
+    "semantic": {
+      "recall_at_5": 1.0,
+      "mrr_at_5": 1.0,
+      "median_latency_ms": 16.97,
+      "queries": [
+        {
+          "query": "retry a failed payment",
+          "expected": "retry_payment",
+          "rank": 1
+        },
+        {
+          "query": "refund part of the purchase amount",
+          "expected": "calculate_refund",
+          "rank": 1
+        },
+        {
+          "query": "prevent duplicate payment requests",
+          "expected": "idempotency_key",
+          "rank": 1
+        },
+        {
+          "query": "reserve stock before checkout",
+          "expected": "reserve_stock",
+          "rank": 1
+        },
+        {
+          "query": "release inventory after cancellation",
+          "expected": "release_stock",
+          "rank": 1
+        },
+        {
+          "query": "find products needing replenishment",
+          "expected": "low_stock",
+          "rank": 1
+        },
+        {
+          "query": "calculate parcel delivery charges",
+          "expected": "shipping_cost",
+          "rank": 1
+        },
+        {
+          "query": "estimate arrival excluding weekends",
+          "expected": "delivery_date",
+          "rank": 1
+        },
+        {
+          "query": "validate Indian postal PIN",
+          "expected": "valid_postcode",
+          "rank": 1
+        },
+        {
+          "query": "sum revenue only from paid orders",
+          "expected": "total_revenue",
+          "rank": 1
+        },
+        {
+          "query": "mean spending per successful order",
+          "expected": "average_order_value",
+          "rank": 1
+        },
+        {
+          "query": "rank best selling products",
+          "expected": "popular_products",
+          "rank": 1
+        },
+        {
+          "query": "validate customer email",
+          "expected": "valid_email",
+          "rank": 1
+        },
+        {
+          "query": "reject non positive quantities",
+          "expected": "check_quantity",
+          "rank": 1
+        },
+        {
+          "query": "percentage discount on an amount",
+          "expected": "apply_discount",
+          "rank": 1
+        }
+      ]
+    },
+    "hybrid": {
+      "recall_at_5": 1.0,
+      "mrr_at_5": 0.9667,
+      "median_latency_ms": 37.18,
+      "queries": [
+        {
+          "query": "retry a failed payment",
+          "expected": "retry_payment",
+          "rank": 1
+        },
+        {
+          "query": "refund part of the purchase amount",
+          "expected": "calculate_refund",
+          "rank": 1
+        },
+        {
+          "query": "prevent duplicate payment requests",
+          "expected": "idempotency_key",
+          "rank": 1
+        },
+        {
+          "query": "reserve stock before checkout",
+          "expected": "reserve_stock",
+          "rank": 1
+        },
+        {
+          "query": "release inventory after cancellation",
+          "expected": "release_stock",
+          "rank": 1
+        },
+        {
+          "query": "find products needing replenishment",
+          "expected": "low_stock",
+          "rank": 1
+        },
+        {
+          "query": "calculate parcel delivery charges",
+          "expected": "shipping_cost",
+          "rank": 1
+        },
+        {
+          "query": "estimate arrival excluding weekends",
+          "expected": "delivery_date",
+          "rank": 1
+        },
+        {
+          "query": "validate Indian postal PIN",
+          "expected": "valid_postcode",
+          "rank": 1
+        },
+        {
+          "query": "sum revenue only from paid orders",
+          "expected": "total_revenue",
+          "rank": 1
+        },
+        {
+          "query": "mean spending per successful order",
+          "expected": "average_order_value",
+          "rank": 1
+        },
+        {
+          "query": "rank best selling products",
+          "expected": "popular_products",
+          "rank": 1
+        },
+        {
+          "query": "validate customer email",
+          "expected": "valid_email",
+          "rank": 2
+        },
+        {
+          "query": "reject non positive quantities",
+          "expected": "check_quantity",
+          "rank": 1
+        },
+        {
+          "query": "percentage discount on an amount",
+          "expected": "apply_discount",
+          "rank": 1
+        }
+      ]
+    }
+  },
+  "unsuccessful_searches": [
+    {
+      "query": "send password reset email",
+      "cause": "The sample repository has no authentication or email service.",
+      "top_results": {
+        "keyword": [
+          "valid_email",
+          "create_order",
+          "retry_payment"
+        ],
+        "semantic": [
+          "valid_email",
+          "retry_payment",
+          "create_order"
+        ],
+        "hybrid": [
+          "valid_email",
+          "create_order",
+          "retry_payment"
+        ]
+      }
+    },
+    {
+      "query": "upload a profile image",
+      "cause": "The sample repository contains no upload handler.",
+      "top_results": {
+        "keyword": [
+          "calculate_refund",
+          "retry_payment",
+          "valid_email"
+        ],
+        "semantic": [
+          "valid_email",
+          "valid_postcode",
+          "idempotency_key"
+        ],
+        "hybrid": [
+          "valid_email",
+          "calculate_refund",
+          "valid_postcode"
+        ]
+      }
+    },
+    {
+      "query": "write audit logs to kafka",
+      "cause": "No logging or Kafka integration exists in the sample.",
+      "top_results": {
+        "keyword": [
+          "idempotency_key",
+          "retry_payment"
+        ],
+        "semantic": [
+          "payment_receipt",
+          "idempotency_key",
+          "release_stock"
+        ],
+        "hybrid": [
+          "idempotency_key",
+          "retry_payment",
+          "payment_receipt"
+        ]
+      }
+    },
+    {
+      "query": "calculate sales tax",
+      "cause": "The order service has discounts and totals but no tax function.",
+      "top_results": {
+        "keyword": [
+          "average_order_value",
+          "calculate_refund",
+          "Order.total"
+        ],
+        "semantic": [
+          "average_order_value",
+          "total_revenue",
+          "Order.total"
+        ],
+        "hybrid": [
+          "average_order_value",
+          "Order.total",
+          "calculate_refund"
+        ]
+      }
+    },
+    {
+      "query": "connect to postgres",
+      "cause": "The sample uses no database layer.",
+      "top_results": {
+        "keyword": [
+          "idempotency_key",
+          "retry_payment"
+        ],
+        "semantic": [
+          "idempotency_key",
+          "create_order",
+          "valid_postcode"
+        ],
+        "hybrid": [
+          "idempotency_key",
+          "retry_payment",
+          "create_order"
+        ]
+      }
+    }
+  ]
+}
